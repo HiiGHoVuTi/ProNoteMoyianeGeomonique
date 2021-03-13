@@ -48,5 +48,11 @@ const main = (async () =>{
         "Relative to Best": relative_global_geomonic_meandian + " %",
     })
 })()
-
+.catch(err => {
+    if (err.code === pronote.errors.WRONG_CREDENTIALS.code) {
+        console.error('Failed to login, check your credentials.');    
+    } else {
+        console.error(err);
+    }
+});
 
