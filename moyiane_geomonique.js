@@ -30,11 +30,11 @@ const main = (async () =>{
             relative_to_best.push(m.value / m.max);
         }))
         return [personal_marks, average_marks, best_marks, relative_to_best].map(geomonic_meandian)
-    })
-    personal_geomonics = geomonics.map(x => x[0]).filter(w => !isNaN(w))
-    average_geomonics = geomonics.map(x => x[1]).filter(w => !isNaN(w))
-    best_geomonics = geomonics.map(x => x[2]).filter(w => !isNaN(w))
-    relative_geomonics = geomonics.map(x => x[3]).filter(w => !isNaN(w))
+    }).filter(w => !isNaN(w[0]))
+    personal_geomonics = geomonics.map(x => x[0])
+    average_geomonics = geomonics.map(x => x[1])
+    best_geomonics = geomonics.map(x => x[2])
+    relative_geomonics = geomonics.map(x => x[3])
 
     personal_global_geomonic_meandian = Math.round(geomonic_meandian(personal_geomonics) * 2000) / 100
     average_global_geomonic_meandian = Math.round(geomonic_meandian(average_geomonics) * 2000) / 100
