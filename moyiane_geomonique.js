@@ -3,7 +3,7 @@ const pronote = require('pronote-api');
 require('dotenv').config();
 
 // Exemple
-const url = 'https://0691644m.index-education.net/pronote/';
+const url = process.env.URL;
 
 const mean      = x => x.reduce((a, b) => a+b, 0) / x.length
 const median    = x => x.sort()[Math.floor(x.length/2)]
