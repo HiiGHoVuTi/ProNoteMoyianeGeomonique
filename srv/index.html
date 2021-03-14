@@ -23,9 +23,13 @@ $(document).ready(()=>{
                     global.map(x => x * 5 + " %"),
                     global
                 ]
-                : [["Subject", "Grade", "", "Relative to Best", ""],
+                : [["Subject", "Grade", "", "Relative to Best", "", "Class", "", "You vs Class"],
                     ...subject_names.map((n, i) => 
-                        [n.split(">")[0], Math.floor(per_subject[0][i]*2000)/100 + " / 20", per_subject[0][i]*20, Math.floor(per_subject[3][i]*2000)/100 + " / 20", per_subject[3][i]*20])
+                        [n.split(">")[0], 
+                        Math.floor(per_subject[0][i]*2000)/100 + " / 20", per_subject[0][i]*20, 
+                        Math.floor(per_subject[3][i]*2000)/100 + " / 20", per_subject[3][i]*20, 
+                        Math.floor(per_subject[1][i]*2000)/100 + " / 20", per_subject[1][i]*20, 
+                        Math.floor(per_subject[0][i]/per_subject[1][i]*10000)/100 + "%"])
                 ]
             
 
