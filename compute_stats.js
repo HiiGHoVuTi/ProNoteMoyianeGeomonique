@@ -1,7 +1,7 @@
 
 
 const mean      = x => x.reduce((a, b) => a+b, 0) / x.length
-const median    = x => x.sort()[Math.floor(x.length/2)]
+const median    = x => x.slice().sort()[Math.floor(x.length/2)]
 const geometric = x => Math.pow(x.reduce((a, b) => a*b, 1), 1/x.length)
 const harmonic  = x => x.length / x.reduce((a, b) => a + 1/b, 0)
 
@@ -19,12 +19,13 @@ module.exports = (marks) => {
             best_marks.push(m.max / m.scale);
             relative_to_best.push(m.value / m.max);
         }))
-        return [personal_marks, average_marks, best_marks, relative_to_best].map(geomonic_meandian)
-    }).filter(w => !isNaN(w[0]))
-    personal_geomonics = geomonics.map(x => x[0])
-    average_geomonics = geomonics.map(x => x[1])
-    best_geomonics = geomonics.map(x => x[2])
-    relative_geomonics = geomonics.map(x => x[3])
+        return [ subject.name,  ...[ personal_marks, average_marks, best_marks, relative_to_best ].map(geomonic_meandian) ]
+    }).filter(w => !isNaN(w[1]))
+    names = geomonics.map(x => x[0])
+    personal_geomonics = geomonics.map(x => x[1])
+    average_geomonics = geomonics.map(x => x[2])
+    best_geomonics = geomonics.map(x => x[3])
+    relative_geomonics = geomonics.map(x => x[4])
 
     personal_global_geomonic_meandian = Math.round(geomonic_meandian(personal_geomonics) * 2000) / 100
     average_global_geomonic_meandian = Math.round(geomonic_meandian(average_geomonics) * 2000) / 100
@@ -32,7 +33,11 @@ module.exports = (marks) => {
     relative_global_geomonic_meandian = Math.round(geomonic_meandian(relative_geomonics) * 2000) / 100
 
 
-    return [ personal_global_geomonic_meandian, average_global_geomonic_meandian,
-        best_global_geomonic_meandian, relative_global_geomonic_meandian ]
+    return { 
+        global: [ personal_global_geomonic_meandian, average_global_geomonic_meandian,
+        best_global_geomonic_meandian, relative_global_geomonic_meandian ],
+        per_subject: [personal_geomonics, average_geomonics,best_geomonics,relative_geomonics],
+        subject_names: names
+    }
 
 }

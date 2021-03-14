@@ -15,7 +15,7 @@ const main = (async () =>{
     console.log(session.user.name)
     const marks = await session.marks(trimester);
     
-    const [ student, average, best, relative_to_best ] = compute_stats(marks);
+    const { global: [ student, average, best, relative_to_best ] } = compute_stats(marks);
 
     console.table({ 
         Student: student, 

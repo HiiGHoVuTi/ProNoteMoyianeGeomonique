@@ -8,7 +8,8 @@ $(document).ready(()=>{
         const data = $("form").serialize();
 
         $.post("https://ProNoteMoyianeGeomonique.emixampons.repl.co/pronoteAPI", data, res => {
-            const [ student, average, best, relative_to_best ] = res;
+            const { global: [ student, average, best, relative_to_best ] } = res;
+            const { global, per_subject, subject_names } = res;
             console.table({ 
                 Student: student, 
                 Classmates: average, 
@@ -16,9 +17,17 @@ $(document).ready(()=>{
                 "Relative to Best": relative_to_best + " %",
             });
 
-            tableData = [["Student", "Classmates", "Theoritical Perfect Student", "Relative to Best"], 
-                res.map(x => x + " / 20"),
-                res.map(x => x * 5 + " %")]
+            const tableData = $("#global").is(":checked")
+                ? [["Student", "Classmates", "Theoritical Perfect Student", "Relative to Best"], 
+                    global.map(x => x + " / 20"),
+                    global.map(x => x * 5 + " %"),
+                    global
+                ]
+                : [["Subject", "Grade", "", "Relative to Best", ""],
+                    ...subject_names.map((n, i) => 
+                        [n.split(">")[0], Math.floor(per_subject[0][i]*2000)/100 + " / 20", per_subject[0][i]*20, Math.floor(per_subject[3][i]*2000)/100 + " / 20", per_subject[3][i]*20])
+                ]
+            
 
             const table = document.createElement('table');
 
@@ -39,13 +48,22 @@ $(document).ready(()=>{
 
                 rowData.forEach(cellData => {
                     const cell = document.createElement('td');
-                    cell.appendChild(document.createTextNode(cellData));
+                    if (typeof(cellData) == "string"){
+                        cell.appendChild(document.createTextNode(cellData));
+                    } else if (typeof(cellData) == "number"){
+                        const bar = document.createElement("progress");
+                        bar.max = 20;
+                        bar.value = cellData;
+                        cell.appendChild(bar);
+                    }
+                    
                     row.appendChild(cell);
                 });
                 tableBody.appendChild(row);
             });
 
             table.appendChild(tableBody);
+
             const newbody = document.createElement("body");
             newbody.appendChild(table);
             document.body = newbody;
@@ -63,7 +81,7 @@ $(document).ready(()=>{
     }
     html,
     body {
-        height: 100%;
+        height: 99%;
     }
 
     body {
@@ -139,6 +157,7 @@ $(document).ready(()=>{
 <p>CAS Name: <input name="cas" value="ac-lyon"></input></p>
 <p>Trimestre: <input name="trimestre" value="Trimestre "></input></p>
 </form>
+<p> Global <input type="checkbox" id="global" checked="true"></input></p>
 <button id="send"> Send </button>
 
 </body>
