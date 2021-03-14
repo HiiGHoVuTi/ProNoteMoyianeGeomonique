@@ -1,0 +1,145 @@
+
+<head>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">  </script>
+<script>
+$(document).ready(()=>{
+    $("#send").click(()=>{
+
+        const data = $("form").serialize();
+
+        $.post("https://ProNoteMoyianeGeomonique.emixampons.repl.co/pronoteAPI", data, res => {
+            const [ student, average, best, relative_to_best ] = res;
+            console.table({ 
+                Student: student, 
+                Classmates: average, 
+                "Theoritical Perfect Student": best, 
+                "Relative to Best": relative_to_best + " %",
+            });
+
+            tableData = [["Student", "Classmates", "Theoritical Perfect Student", "Relative to Best"], 
+                res.map(x => x + " / 20"),
+                res.map(x => x * 5 + " %")]
+
+            const table = document.createElement('table');
+
+            const tableHead = document.createElement("thead");
+            const tableHeadRow = document.createElement("tr");
+            tableData[0].forEach(datum => {
+                const elem = document.createElement("th");
+                elem.appendChild(document.createTextNode(datum));
+                tableHeadRow.appendChild(elem);
+            })
+            tableHead.appendChild(tableHeadRow);
+            table.appendChild(tableHead);
+
+            const tableBody = document.createElement('tbody');
+
+            tableData.slice(1).forEach((rowData, i) => {
+                const row = document.createElement('tr');
+
+                rowData.forEach(cellData => {
+                    const cell = document.createElement('td');
+                    cell.appendChild(document.createTextNode(cellData));
+                    row.appendChild(cell);
+                });
+                tableBody.appendChild(row);
+            });
+
+            table.appendChild(tableBody);
+            const newbody = document.createElement("body");
+            newbody.appendChild(table);
+            document.body = newbody;
+        });
+    });
+
+});
+</script>
+<style>
+    h1 {
+        font-size: 140%;
+    }
+    h2 {
+        font-size: 120%;
+    }
+    html,
+    body {
+        height: 100%;
+    }
+
+    body {
+        margin: 0 0;
+        background: linear-gradient(45deg, #49a09d, #5f2c82);
+        font-family: sans-serif;
+        font-weight: 100;
+    }
+
+    .container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    table {
+        width: 800px;
+        border-collapse: collapse;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    th,
+    td {
+        padding: 15px;
+        background-color: rgba(255,255,255,0.2);
+        color: #fff;
+    }
+
+    th {
+        text-align: left;
+    }
+
+    thead {
+        th {
+            background-color: #55608f;
+        }
+    }
+
+    tbody {
+        tr {
+            &:hover {
+                background-color: rgba(255,255,255,0.3);
+            }
+        }
+        td {
+            position: relative;
+            &:hover {
+                &:before {
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    right: 0;
+                    top: -9999px;
+                    bottom: -9999px;
+                    background-color: rgba(255,255,255,0.2);
+                    z-index: -1;
+                }
+            }
+        }
+}
+</style>
+</head>
+
+<body>
+<h1>ProNote - Moyiane Géomonique</h1>
+<p> Des statistiques plus représentatives de vos notes </p>
+<form>
+<p>Username: <input name="user"></input></p>
+<p>Password: <input name="pwd" type="password"></input></p>
+<p>Pronote Url: <input name="url" value="https://0691644m.index-education.net/pronote/"></input></p>
+<p>CAS Name: <input name="cas" value="ac-lyon"></input></p>
+<p>Trimestre: <input name="trimestre" value="Trimestre "></input></p>
+</form>
+<button id="send"> Send </button>
+
+</body>
+

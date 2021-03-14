@@ -21,7 +21,7 @@ const main = (async () =>{
         Student: student, 
         Classmates: average, 
         "Theoritical Perfect Student": best, 
-        "Relative to Best": relative_to_best + " %",
+        "Relative to Best": relative_to_best * 5 + " %",
     })
 })()
 .catch(err => {

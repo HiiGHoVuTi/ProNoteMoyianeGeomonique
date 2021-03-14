@@ -29,7 +29,7 @@ module.exports = (marks) => {
     personal_global_geomonic_meandian = Math.round(geomonic_meandian(personal_geomonics) * 2000) / 100
     average_global_geomonic_meandian = Math.round(geomonic_meandian(average_geomonics) * 2000) / 100
     best_global_geomonic_meandian = Math.round(geomonic_meandian(best_geomonics) * 2000) / 100
-    relative_global_geomonic_meandian = Math.round(geomonic_meandian(relative_geomonics) * 10000) / 100
+    relative_global_geomonic_meandian = Math.round(geomonic_meandian(relative_geomonics) * 2000) / 100
 
 
     return [ personal_global_geomonic_meandian, average_global_geomonic_meandian,
